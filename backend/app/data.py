@@ -50,6 +50,8 @@ def _sample_data():
         "routes": load("routes.txt"),
         "trips": load("trips.txt"),
         "stop_times": load("stop_times.txt"),
+        "calendar": load("calendar.txt") if (SAMPLE_DIR / "calendar.txt").exists() else [],
+        "calendar_dates": load("calendar_dates.txt") if (SAMPLE_DIR / "calendar_dates.txt").exists() else [],
         "shapes": [],
         "source": "sample data (offline fallback)",
     }
@@ -63,13 +65,15 @@ def load_data():
             trips = _read_csv_from_zip(zf, "trips.txt")
             stop_times = _read_csv_from_zip(zf, "stop_times.txt")
             shapes = _read_csv_from_zip(zf, "shapes.txt")
+            calendar = _read_csv_from_zip(zf, "calendar.txt")
+            calendar_dates = _read_csv_from_zip(zf, "calendar_dates.txt")
             if not stops:
                 raise ValueError("GTFS feed contains no stops")
             # Validate that the stops have usable coordinates.
             valid = [r for r in stops if normalize_stop(r)]
             if not valid:
                 raise ValueError("GTFS stops have no valid coordinates")
-            return {"stops": stops, "routes": routes, "trips": trips, "stop_times": stop_times, "shapes": shapes, "source": "live GTFS feed"}
+            return {"stops": stops, "routes": routes, "trips": trips, "stop_times": stop_times, "calendar": calendar, "calendar_dates": calendar_dates, "shapes": shapes, "source": "live GTFS feed"}
     except Exception as exc:
         print(f"GTFS download/read failed; using sample dataset: {exc}")
         return _sample_data()
@@ -90,9 +94,11 @@ def normalize_stop(row):
     if not (-90 <= lat <= 90 and -180 <= lon <= 180):
         return None
     return {
-        "stop_id": row.get("stop_id", ""),
+        "stop_id": (row.get("stop_id", "") or "").strip(),
         "name": row.get("stop_name", "Unnamed stop"),
         "lat": lat,
         "lon": lon,
         "code": row.get("stop_code", ""),
+        "parent_station": (row.get("parent_station", "") or "").strip(),
+        "location_type": (row.get("location_type", "") or "").strip(),
     }
