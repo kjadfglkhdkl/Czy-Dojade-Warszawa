@@ -2,7 +2,7 @@
 
 Open-source dashboard do analizy dostępności komunikacji miejskiej w Warszawie, oparty o dane GTFS. Projekt działa lokalnie **bez Dockera**.
 # PRZED URUCHOMIENIEM 
-Odpakuj frontend.zip, stwórz nowy folder src, wrzuć do niego frontend i backend 
+Rozpakuj frontend.zip, stwórz nowy folder src, wrzuć do niego frontend i backend 
 ## Wymagania
 - Windows 10/11
 - Python 3.10+ (zaznacz opcję dodania Pythona do PATH lub używaj `py`)
@@ -10,10 +10,9 @@ Odpakuj frontend.zip, stwórz nowy folder src, wrzuć do niego frontend i backen
 - Internet przy pierwszym uruchomieniu i pobieraniu aktualnych danych GTFS
 
 ## Szybkie uruchomienie Windows
-1. Rozpakuj ZIP.
-2. Zainstaluj Python i Node.js, jeśli nie masz ich na komputerze.
-3. Kliknij dwukrotnie `start.bat`. Skrypt otworzy dwa okna terminala, z backendem i frontendem.
-4. W przeglądarce otwórz **http://127.0.0.1:5174**.
+1. Zainstaluj Python i Node.js, jeśli nie masz ich na komputerze.
+2. Kliknij dwukrotnie `start.bat`. Skrypt otworzy dwa okna terminala, z backendem i frontendem.
+3. W przeglądarce otwórz **http://127.0.0.1:5174**.
 
 Przy pierwszym uruchomieniu backend utworzy środowisko Python i zainstaluje zależności. Frontend pobierze paczki npm. To może chwilę potrwać.
 
