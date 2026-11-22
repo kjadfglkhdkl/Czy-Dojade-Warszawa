@@ -1,0 +1,4 @@
+route_id,route_short_name,route_long_name,route_type
+r1,1,Tram line 1,0
+r2,2,Bus line 2,3
+r3,M1,Metro line M1,1
