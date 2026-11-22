@@ -55,19 +55,18 @@ pytest
 
 ## Uwaga
 GTFS to rozkład statyczny — nie pokazuje na żywo opóźnień. Odległości są liczone w linii prostej, a nie jako trasa piesza. Sprawdź licencję/warunki feedu i wymagania atrybucji przed publicznym wdrożeniem.
+## Rozwiązywanie problemów (Windows)
 
-## Troubleshooting (Windows)
-
-- API check: open `http://127.0.0.1:8000/api/health` (should return JSON and `status: ok`).
-- Stops endpoint: `http://127.0.0.1:8000/api/stops?limit=10` (should return a JSON array).
-- Frontend: `http://127.0.0.1:5174`. Frontend proxies `/api` requests to the API server.
-- If GTFS download fails (network or source unavailable), backend automatically uses the bundled sample stops so the app remains usable. The API's `source` field will indicate offline sample data.
-- Run `start-api.bat` and `start-frontend.bat` separately if the combined launcher doesn't keep both terminals open.
+- Sprawdzenie API: otwórz `http://127.0.0.1:8000/api/health` (powinno zwrócić obiekt JSON z wartością `status: ok`).
+- Punkt końcowy przystanków (stops): `http://127.0.0.1:8000/api/stops?limit=10` (powinno zwrócić tablicę JSON).
+- Interfejs użytkownika (frontend): `http://127.0.0.1:5174`. Frontend przekierowuje (proxy) zapytania kierowane do `/api` na serwer API.
+- Jeśli pobieranie danych GTFS zakończy się niepowodzeniem (z powodu problemów z siecią lub niedostępności źródła), backend automatycznie użyje dołączonych przykładowych danych o przystankach, dzięki czemu aplikacja pozostanie funkcjonalna. Pole `source` w API wskaże, że używane są lokalne, przykładowe dane.
+- Jeśli zbiorczy skrypt uruchomieniowy nie utrzymuje otwartych obu okien terminala, uruchom `start-api.bat` oraz `start-frontend.bat` oddzielnie.
 
 
-## API connection check (Windows)
+## Weryfikacja połączenia z API (Windows)
 
-The frontend now calls the local API directly at `http://127.0.0.1:8000/api`. CORS is enabled for the frontend on port 5174. Check these URLs while both start scripts are running:
+Interfejs użytkownika (frontend) komunikuje się teraz bezpośrednio z lokalnym API pod adresem `http://127.0.0.1:8000/api`. Funkcja CORS jest włączona dla interfejsu użytkownika na porcie 5174. Sprawdź te adresy URL, gdy działają oba skrypty startowe:
 
 - `http://127.0.0.1:8000/api/health`
 - `http://127.0.0.1:8000/api/stops?limit=5`
@@ -76,17 +75,17 @@ The frontend now calls the local API directly at `http://127.0.0.1:8000/api`. CO
 ## Diagnostyka połączenia (wersja bez Dockera)
 
 - Strona: http://127.0.0.1:5174
-- API status: http://127.0.0.1:8000/api/health
+- Stan API: http://127.0.0.1:8000/api/health
 - Przystanki: http://127.0.0.1:8000/api/stops?limit=5
 - Linie: http://127.0.0.1:8000/api/routes
 - Dokumentacja API: http://127.0.0.1:8000/docs
 
-Frontend wysyła zapytania pod względnym adresem `/api`. Vite przekazuje je do FastAPI (`127.0.0.1:8000`) przez proxy, dzięki czemu omijamy problemy CORS. Jeśli strona jest otwarta na porcie 5174, endpoint `/api/routes` powinien odpowiadać na `http://127.0.0.1:5174/api/routes`.
+Frontend wysyła zapytanie pod względnym adresem `/api`. Vite przekazuje je do FastAPI (`127.0.0.1:8000`) przez proxy, dzięki czemu omijamy problemy CORS. Jeżeli strona jest otwarta na porcie 5174, punkt końcowy `/api/routes` powinien odpowiadać na `http://127.0.0.1:5174/api/routes`.
 
-## New features: stop-route search and route maps
+## Nowe funkcje: wyszukiwanie przystanków i mapy tras
 
-- Search a stop name, select a suggestion, and see route numbers serving it.
-- Route catalog is collapsible and searchable.
-- Clicking a route loads a trip pattern and draws its geometry on the map.
-- When GTFS `shapes.txt` is missing for a trip, route preview falls back to ordered stop coordinates from `stop_times.txt`.
-- Endpoint: `GET /api/stops/{stop_id}/routes`; endpoint: `GET /api/routes/{route_id}/map`.
+- Wyszukaj nazwę przystanku, wybierz sugestię i zobacz numery tras obsługujących ten przystanek.
+- Katalog tras można składać i przeszukiwać.
+- Kliknięcie trasy ładuje wzór podróży i rysuje jej geometrię na mapie.
+- Jeśli w przypadku podróży brakuje pliku „shapes.txt” GTFS, podgląd trasy powraca do współrzędnych przystanku zamówionych z „stop_times.txt”.
+- Punkt końcowy: `GET /api/stops/{stop_id}/routes`; punkt końcowy: `GET /api/routes/{route_id}/map`.
