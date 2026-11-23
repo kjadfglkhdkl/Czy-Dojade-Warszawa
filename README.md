@@ -2,7 +2,8 @@
 
 Open-source dashboard do analizy dostępności komunikacji miejskiej w Warszawie, oparty o dane GTFS. Projekt działa lokalnie **bez Dockera**.
 # PRZED URUCHOMIENIEM 
-Rozpakuj frontend.zip, stwórz nowy folder src, wrzuć do niego frontend i backend 
+- Rozpakuj frontend.zip, stwórz nowy folder src, wrzuć do niego frontend i backend
+- Jeśli wyświetla się błąd API, otwórz `http://127.0.0.1:8000`, zamknij kartę i po tym odśwież stronę.
 ## Wymagania
 - Windows 10/11
 - Python 3.10+ (zaznacz opcję dodania Pythona do PATH lub używaj `py`)
